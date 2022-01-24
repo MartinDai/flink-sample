@@ -1,0 +1,9 @@
+server :
+  port : 8888
+spring:
+  application:
+    name: flink-sample
+  kafka:
+    producer:
+      bootstrap-servers: 127.0.0.1:9092
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
