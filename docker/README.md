@@ -15,7 +15,7 @@ docker-compose -f docker-compose-flink.yml up -d
 ## Kafka服务
 
 ```
-docker-compose -f docker-compose-flink.yml up -d
+docker-compose -f docker-compose-kafka.yml up -d
 ```
 - 此配置包含1个zookeeper+1个kafka服务节点，可以根据需要自行调整
 - 需要修改KAFKA_ADVERTISED_HOST_NAME的值为本机局域网地址
