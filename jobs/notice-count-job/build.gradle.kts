@@ -9,6 +9,7 @@ plugins {
 tasks {
     named<ShadowJar>("shadowJar") {
         dependencies {
+            include(dependency(":common"))
             include(dependency("org.apache.commons:commons-lang3:.*"))
             include(dependency("org.apache.flink:flink-connector.*"))
             include(dependency("org.apache.kafka:kafka-clients:.*"))

@@ -57,7 +57,7 @@ public class NoticeCountJob {
                 .trigger(ProcessingTimeoutTrigger.of(EventTimeTrigger.create(), Duration.ofSeconds(60), false, false));
 
         //对每个窗口的数据执行计算统计数量
-        SingleOutputStreamOperator<NoticeCountEvent> noticeCountEventStream = windowedStream.apply(new CountNoticeAggregateWindowFunction());
+        SingleOutputStreamOperator<NoticeCountEvent> noticeCountEventStream = windowedStream.apply(new CountNoticeAggregateWindowFunction()).name("countNotice");
 
         //创建kafka作为输出源
         KafkaSink<NoticeCountEvent> kafkaSink = KafkaSink.<NoticeCountEvent>builder()
@@ -69,7 +69,7 @@ public class NoticeCountJob {
 //        noticeCountEventStream.print();
 
         //发送数据到kafka
-        noticeCountEventStream.sinkTo(kafkaSink);
+        noticeCountEventStream.sinkTo(kafkaSink).name("sendNoticeCount");
 
         executionEnvironment.execute(NoticeCountJob.class.getSimpleName());
     }
