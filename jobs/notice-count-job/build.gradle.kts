@@ -1,7 +1,7 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
-    id("java-library-conventions")
+    id("flink-job-conventions")
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
@@ -45,9 +45,4 @@ configurations {
 
 dependencies {
     api(project(":common"))
-
-    implementation(libs.flink.core)
-    implementation(libs.flink.connector.kafka)
-    implementation(libs.flink.streaming.java)
-    implementation(libs.flink.clients)
 }
