@@ -2,6 +2,7 @@ package com.doodl6.flink.function;
 
 import com.doodl6.flink.common.model.NoticeCountEvent;
 import com.doodl6.flink.common.model.NoticeEvent;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.functions.AggregateFunction;
 import org.apache.flink.streaming.api.functions.windowing.AggregateApplyWindowFunction;
 import org.apache.flink.streaming.api.functions.windowing.WindowFunction;
@@ -13,6 +14,7 @@ import java.util.Iterator;
 /**
  * 增量统计窗口内通知数量
  */
+@Slf4j
 public class CountNoticeAggregateWindowFunction extends AggregateApplyWindowFunction<String, TimeWindow, NoticeEvent, Integer, Integer, NoticeCountEvent> {
 
     public CountNoticeAggregateWindowFunction() {
@@ -57,6 +59,7 @@ public class CountNoticeAggregateWindowFunction extends AggregateApplyWindowFunc
             }
             noticeCountEvent.setCount(count);
             out.collect(noticeCountEvent);
+            log.info("窗口结束，计算通知数量完成：" + noticeCountEvent);
         }
     }
 
