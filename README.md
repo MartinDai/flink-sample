@@ -25,3 +25,9 @@
 ## web
 可以通过FlinkApplication入口直接启动的一个springboot项目，主要用于接受请求生成jobs模块不同任务所需要的数据
 
+# 构建
+执行如下命令，可以构建整个项目，在jobs下的各个模块中的build/libs目录会生成以-all.jar结尾的文件，可以提交flink执行
+```
+./gradlew assemble
+```
+
