@@ -46,9 +46,6 @@ configurations {
 dependencies {
     api(project(":common"))
 
-    implementation(libs.lombok)
-    annotationProcessor(libs.lombok)
-
     implementation(libs.flink.core)
     implementation(libs.flink.connector.kafka)
     implementation(libs.flink.streaming.java)

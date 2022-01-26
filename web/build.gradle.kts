@@ -7,11 +7,7 @@ plugins {
 dependencies {
     api(project(":common"))
 
-    implementation(libs.lombok)
-    annotationProcessor(libs.lombok)
-
     api("org.springframework.boot:spring-boot-starter-web")
     api("org.springframework.kafka:spring-kafka")
-    api("ch.qos.logback:logback-core:1.2.10")
 }
 
