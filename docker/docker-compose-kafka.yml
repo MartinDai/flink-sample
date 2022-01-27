@@ -1,14 +1,14 @@
 version: '3.7'
 services:
   zookeeper:
-    image: arm64v8/zookeeper:3.6
+    image: zookeeper:3.6
     container_name: zookeeper
     ports:
       - "2181:2181"
     networks:
       - net-kafka
   kafka:
-    image: fogsyio/kafka:2.2.0
+    image: wurstmeister/kafka:2.13-2.8.1
     container_name: kafka
     volumes:
       ## 挂载位置（kafka镜像和宿主机器之间时间保持一致）
