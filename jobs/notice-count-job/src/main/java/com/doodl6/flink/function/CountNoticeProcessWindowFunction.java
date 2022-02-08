@@ -9,12 +9,12 @@ import org.apache.flink.util.Collector;
 import java.util.Iterator;
 
 /**
- * 全量统计窗口内通知数量
+ * 全量统计窗口内通知数量（需要一直保存窗口内的对象知道窗口结束，消耗内存会比较高，一般不建议这么做）
  */
 public class CountNoticeProcessWindowFunction extends ProcessWindowFunction<NoticeEvent, NoticeCountEvent, String, TimeWindow> {
 
     @Override
-    public void process(String key, ProcessWindowFunction<NoticeEvent, NoticeCountEvent, String, TimeWindow>.Context context, Iterable<NoticeEvent> elements, Collector<NoticeCountEvent> out) throws Exception {
+    public void process(String key, ProcessWindowFunction<NoticeEvent, NoticeCountEvent, String, TimeWindow>.Context context, Iterable<NoticeEvent> elements, Collector<NoticeCountEvent> out) {
         NoticeCountEvent noticeCountEvent = new NoticeCountEvent();
         noticeCountEvent.setStartTime(context.window().getStart());
         noticeCountEvent.setEndTime(context.window().getEnd());
