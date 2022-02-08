@@ -9,8 +9,6 @@ import org.apache.flink.streaming.api.functions.windowing.WindowFunction;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
 
-import java.util.Iterator;
-
 /**
  * 增量统计窗口内通知数量
  */
@@ -52,11 +50,8 @@ public class CountNoticeAggregateWindowFunction extends AggregateApplyWindowFunc
             noticeCountEvent.setStartTime(window.getStart());
             noticeCountEvent.setEndTime(window.getEnd());
             noticeCountEvent.setName(key);
-            Iterator<Integer> iterator = input.iterator();
-            int count = 0;
-            while (iterator.hasNext()) {
-                count += iterator.next();
-            }
+            //因为是增量计算，所以最后只会有一个结果
+            int count = input.iterator().next();
             noticeCountEvent.setCount(count);
             out.collect(noticeCountEvent);
             log.info("窗口结束，计算通知数量完成：" + noticeCountEvent);
