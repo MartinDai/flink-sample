@@ -6,6 +6,7 @@
 - jdk-1.8
 - gradle(kts)
 - flink-1.14
+- kafka
 - docker
 
 # 模块介绍
