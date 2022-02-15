@@ -39,7 +39,7 @@ public class NoticeCountJob {
                 .setGroupId("flink-group")
                 .setTopics(sourceTopic)
                 .setValueOnlyDeserializer(new Json2ObjectDeserializer<>(NoticeEvent.class))
-                .setStartingOffsets(OffsetsInitializer.earliest())//指定从最早的偏移量开始消费
+                .setStartingOffsets(OffsetsInitializer.latest())//指定从最新的偏移量开始消费
                 .build();
 
         DataStream<NoticeEvent> dataStream = executionEnvironment.fromSource(kafkaSource,
@@ -47,6 +47,14 @@ public class NoticeCountJob {
                         //使用NoticeEvent对象的timestamp作为EventTime
                         .withTimestampAssigner((TimestampAssignerSupplier<NoticeEvent>) context -> (element, recordTimestamp) -> element.getTimestamp()),
                 sourceTopic + "_kafka_source");
+
+        //备份数据到kafka数据源
+        KafkaSink<NoticeEvent> kafkaBackupSink = KafkaSink.<NoticeEvent>builder()
+                .setBootstrapServers(bootstrapServers)
+                .setRecordSerializer(new Object2JsonSerializer<>(KafkaTopicConstant.NOTICE_BACKUP))
+                .build();
+
+        dataStream.sinkTo(kafkaBackupSink).name("noticeBackup").uid("noticeBackup");
 
         WindowedStream<NoticeEvent, String, TimeWindow> windowedStream = dataStream
                 //根据name分组
