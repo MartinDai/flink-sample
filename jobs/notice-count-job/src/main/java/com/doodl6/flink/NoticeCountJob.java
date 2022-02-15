@@ -77,7 +77,7 @@ public class NoticeCountJob {
 //        noticeCountEventStream.print();
 
         //发送数据到kafka
-        noticeCountEventStream.sinkTo(kafkaSink).name("sendNoticeCount");
+        noticeCountEventStream.sinkTo(kafkaSink).name("sendNoticeCount").uid("sendNoticeCount");
 
         executionEnvironment.execute(NoticeCountJob.class.getSimpleName());
     }
