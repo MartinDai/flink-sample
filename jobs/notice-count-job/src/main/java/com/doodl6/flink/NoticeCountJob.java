@@ -27,7 +27,9 @@ public class NoticeCountJob {
 
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment executionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment();
+        //5秒钟触发一次checkpoint
         executionEnvironment.enableCheckpointing(5000);
+        //同时只允许1个checkpoint并发
         executionEnvironment.getCheckpointConfig().setMaxConcurrentCheckpoints(1);
 
         String bootstrapServers = "172.16.2.231:9092";
@@ -46,7 +48,7 @@ public class NoticeCountJob {
                 WatermarkStrategy.<NoticeEvent>forBoundedOutOfOrderness(Duration.ZERO)//超过时间窗口的数据不处理
                         //使用NoticeEvent对象的timestamp作为EventTime
                         .withTimestampAssigner((TimestampAssignerSupplier<NoticeEvent>) context -> (element, recordTimestamp) -> element.getTimestamp()),
-                sourceTopic + "_kafka_source");
+                sourceTopic + "_kafka_source").name("noticeKafkaSource").uid("noticeKafkaSource");
 
         //备份数据到kafka数据源
         KafkaSink<NoticeEvent> kafkaBackupSink = KafkaSink.<NoticeEvent>builder()
@@ -65,7 +67,7 @@ public class NoticeCountJob {
                 .trigger(ProcessingTimeoutTrigger.of(EventTimeTrigger.create(), Duration.ofSeconds(60), false, false));
 
         //对每个窗口的数据执行计算统计数量
-        SingleOutputStreamOperator<NoticeCountEvent> noticeCountEventStream = windowedStream.apply(new CountNoticeAggregateWindowFunction()).name("countNotice");
+        SingleOutputStreamOperator<NoticeCountEvent> noticeCountEventStream = windowedStream.apply(new CountNoticeAggregateWindowFunction()).name("countNotice").uid("countNotice");
 
         //创建kafka作为输出源
         KafkaSink<NoticeCountEvent> kafkaSink = KafkaSink.<NoticeCountEvent>builder()
