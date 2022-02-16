@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   jobmanager:
-    image: martindai/flink:1.14.3
+    image: flink:1.14.3-scala_2.12-java11
     container_name: jobmanager
     expose:
       - "6123"
@@ -16,7 +16,7 @@ services:
     networks:
       - net-flink
   taskmanager1:
-    image: martindai/flink:1.14.3
+    image: flink:1.14.3-scala_2.12-java11
     container_name: taskmanager1
     expose:
       - "6121"
@@ -30,7 +30,7 @@ services:
     networks:
       - net-flink
   taskmanager2:
-    image: martindai/flink:1.14.3
+    image: flink:1.14.3-scala_2.12-java11
     container_name: taskmanager2
     expose:
       - "6121"
