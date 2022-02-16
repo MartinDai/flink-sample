@@ -14,6 +14,7 @@ import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsIni
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.datastream.WindowedStream;
+import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
@@ -29,8 +30,11 @@ public class NoticeCountJob {
         StreamExecutionEnvironment executionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment();
         //5秒钟触发一次checkpoint
         executionEnvironment.enableCheckpointing(5000);
+        CheckpointConfig checkpointConfig = executionEnvironment.getCheckpointConfig();
         //同时只允许1个checkpoint并发
-        executionEnvironment.getCheckpointConfig().setMaxConcurrentCheckpoints(1);
+        checkpointConfig.setMaxConcurrentCheckpoints(1);
+        //两次checkpoint之间至少5秒钟
+        checkpointConfig.setMinPauseBetweenCheckpoints(5000);
 
         String bootstrapServers = "172.16.2.231:9092";
         //接收kafka消息
