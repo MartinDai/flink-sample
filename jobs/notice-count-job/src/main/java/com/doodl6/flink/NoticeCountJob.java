@@ -6,6 +6,7 @@ import com.doodl6.flink.common.model.NoticeEvent;
 import com.doodl6.flink.function.CountNoticeAggregateWindowFunction;
 import com.doodl6.flink.serializer.Json2ObjectDeserializer;
 import com.doodl6.flink.serializer.Object2JsonSerializer;
+import com.doodl6.flink.trigger.TimeoutPurgeTrigger;
 import org.apache.flink.api.common.eventtime.TimestampAssignerSupplier;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.connector.kafka.sink.KafkaSink;
@@ -68,7 +69,7 @@ public class NoticeCountJob {
                 //一分钟一个窗口
                 .window(TumblingEventTimeWindows.of(Time.minutes(1)))
                 //一分钟自动关闭窗口
-                .trigger(ProcessingTimeoutTrigger.of(EventTimeTrigger.create(), Duration.ofSeconds(60), false, false));
+                .trigger(ProcessingTimeoutTrigger.of(TimeoutPurgeTrigger.of(EventTimeTrigger.create()), Duration.ofSeconds(60)));
 
         //对每个窗口的数据执行计算统计数量
         SingleOutputStreamOperator<NoticeCountEvent> noticeCountEventStream = windowedStream.apply(new CountNoticeAggregateWindowFunction()).name("countNotice").uid("countNotice");
