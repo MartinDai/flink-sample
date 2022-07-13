@@ -4,6 +4,6 @@ plugins {
 
 dependencies {
     api(libs.commons.lang3)
-    api(libs.slf4j.api)
-    api(libs.jackson.databind)
+    api(libs.slf4j)
+    api(libs.jackson)
 }
