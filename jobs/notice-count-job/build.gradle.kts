@@ -1,8 +1,12 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
-    id("flink-job-conventions")
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("java-library-conventions")
+    alias(libs.plugins.shadow)
+}
+
+dependencies {
+    implementation(libs.bundles.flink)
 }
 
 // 定义需要被打包进fatJar的依赖
