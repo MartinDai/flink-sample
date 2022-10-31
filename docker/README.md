@@ -17,6 +17,6 @@ docker-compose -f docker-compose-flink.yml up -d
 ```
 docker-compose -f docker-compose-kafka.yml up -d
 ```
-- 此配置包含1个zookeeper+1个kafka服务节点，可以根据需要自行调整
-- 需要修改KAFKA_ADVERTISED_HOST_NAME的值为本机局域网地址
-- Kafka链接地址：http://localhost:9092
+- 该服务使用kafka的kraft模式启动，无需zookeeper
+- 需要替换kafka/conf/server.properties文件内的172.16.2.231为本机局域网地址
+- Kafka连接地址：http://localhost:9092

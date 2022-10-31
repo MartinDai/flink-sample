@@ -11,5 +11,5 @@
 build/
 
 # Ignore docker data directory
-docker/kafka/
+docker/kafka/data/
 docker/flink/data/
