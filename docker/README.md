@@ -9,6 +9,7 @@
 ```
 docker-compose -f docker-compose-flink.yml up -d
 ```
+
 - 此配置包含1个jobManager+2个taskManager服务节点，可以根据需要自行调整
 - Flink Dashboard页面：http://localhost:8081
 
@@ -17,6 +18,7 @@ docker-compose -f docker-compose-flink.yml up -d
 ```
 docker-compose -f docker-compose-kafka.yml up -d
 ```
+
 - 该服务使用kafka的kraft模式启动，无需zookeeper
-- 需要替换kafka/conf/server.properties文件内的172.16.2.231为本机局域网地址
+- 需要替换kafka/conf/server.properties文件内的172.16.0.152为本机局域网地址
 - Kafka连接地址：http://localhost:9092

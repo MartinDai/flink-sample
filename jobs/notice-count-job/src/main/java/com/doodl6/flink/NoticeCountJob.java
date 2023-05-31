@@ -37,7 +37,7 @@ public class NoticeCountJob {
         //两次checkpoint之间至少5秒钟
         checkpointConfig.setMinPauseBetweenCheckpoints(5000);
 
-        String bootstrapServers = "172.16.2.231:9092";
+        String bootstrapServers = "172.16.0.152:9092";
         //接收kafka消息
         String sourceTopic = KafkaTopicConstant.NOTICE;
         //创建kafka数据来源
