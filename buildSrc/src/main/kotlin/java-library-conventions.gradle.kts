@@ -9,7 +9,6 @@ repositories {
     maven("https://maven.aliyun.com/nexus/content/groups/public/")
     //最后从maven中央仓库找
     mavenCentral()
-    mavenLocal()
 }
 
 java {
